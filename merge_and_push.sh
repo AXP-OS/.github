@@ -37,12 +37,12 @@ case $MODE in
    DRYRUN) TESTMODE=1;;
    *) TESTMODE=0;;
 esac
-LBRANCH="${lsource/:*}"
-UBRANCH="${utarget/:*}"
-LREPOFULL="${ltarget/*:}"
-UREPOFULL="${utarget/*:}"
-LREPONAME=$(echo "${lsource/*:}" | cut -d '/' -f2)
-UREPONAME=$(echo "${usource/*:}" | cut -d '/' -f2)
+LBRANCH="${lsource/*:}"
+UBRANCH="${utarget/*:}"
+LREPOFULL="${ltarget/:*}"
+UREPOFULL="${utarget/:*}"
+LREPONAME=$(echo "${lsource/:*}" | cut -d '/' -f2)
+UREPONAME=$(echo "${usource/:*}" | cut -d '/' -f2)
 LREPOURL="https://tok:${ghtoken}@${LREPOFULL}.git"
 UREPOURL="https://${UREPOFULL}.git"
 
