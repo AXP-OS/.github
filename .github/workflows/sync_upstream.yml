@@ -5,16 +5,10 @@ on:
   workflow_dispatch:  # button shown only when in default branch
   workflow_call:  # we are a reusable template
     inputs:
-      remote-domain:
-        required: true
-        type: string
       remote-repo:
         required: true
         type: string
       remote-branch:
-        required: true
-        type: string
-      local-domain:
         required: true
         type: string
       local-repo:
@@ -56,7 +50,7 @@ jobs:
         # REQUIRED 'target_repo_token' exactly like this!
         target_repo_token: ${{ secrets.GITHUB_TOKEN }}
         upstream_sync_branch: "${{ inputs.remote-branch }}"
-        upstream_sync_repo: "${{ inputs.remote-domain }}/${{ inputs.remote-repo }}"
+        upstream_sync_repo: "${{ inputs.remote-repo }}"
         #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
         shallow_since: '3 years ago'
         # Set test_mode true to run tests instead of the true action!!
