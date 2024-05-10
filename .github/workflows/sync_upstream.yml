@@ -41,7 +41,6 @@ jobs:
     - name: Checkout ${{ inputs.local-repo }}
       uses: actions/checkout@v4
       with:
-        github-server-url: "${{ inputs.remote-server || 'https://github.com' }}"
         repository: "${{ inputs.local-repo }}"
         ref: "${{ inputs.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
@@ -56,6 +55,7 @@ jobs:
         target_sync_branch: "${{ inputs.local-branch }}"
         # REQUIRED 'target_repo_token' exactly like this!
         target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+        host_domain: "${{ inputs.remote-server || 'github.com' }}"
         upstream_sync_branch: "${{ inputs.remote-branch }}"
         upstream_sync_repo: "${{ inputs.remote-repo }}"
         #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
