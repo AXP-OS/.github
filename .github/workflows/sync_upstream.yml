@@ -20,6 +20,9 @@ on:
       withsubmodules:
         required: false
         type: boolean
+      dryrun:
+        required: false
+        type: boolean
 
 # Sets permissions of the GITHUB_TOKEN to allow pushing via github token
 permissions:
@@ -54,7 +57,7 @@ jobs:
         #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
         shallow_since: '3 years ago'
         # Set test_mode true to run tests instead of the true action!!
-        test_mode: true
+        test_mode: ${{ inputs.dryrun }}
       
     - name: "New commits found?"
       if: steps.sync.outputs.has_new_commits == 'true'
