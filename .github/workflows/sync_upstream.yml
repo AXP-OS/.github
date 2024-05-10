@@ -41,7 +41,7 @@ jobs:
     - name: Checkout ${{ inputs.local-repo }}
       uses: actions/checkout@v4
       with:
-        repository: "${{ inputs.local-domain }}/${{ inputs.local-repo }}"
+        repository: "${{ inputs.local-repo }}"
         ref: "${{ inputs.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
