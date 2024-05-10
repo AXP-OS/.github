@@ -22,7 +22,7 @@ jobs:
             remote-branch: master
             local-domain: github.com
             local-repo: AXP-OS/packages_apps_OpenEUICC
-            local-branch: mixed
+            local-branch: upstream
 
           #local-branch: [ master, axp ] # no idea how I can access that later as matrix.reposync.local-branch is just the array
           - remote-domain: github.com
