@@ -34,8 +34,7 @@ jobs:
     - name: Checkout own repo
       uses: actions/checkout@v4
       with:
-        # optional: set the branch to checkout,
-        # sync action checks out your 'target_sync_branch' anyway
+        repository: "${{ matrix.reposync.remote-domain }}/${{ matrix.reposync.remote-repo }}"
         ref: ${{ matrix.reposync.local-branch }}
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
