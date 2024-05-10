@@ -22,7 +22,10 @@ on:
         type: string
       local-branch:
         required: true
-        type: string     
+        type: string
+      withsubmodules:
+        required: false
+        type: boolean
 
 # Sets permissions of the GITHUB_TOKEN to allow pushing via github token
 permissions:
@@ -38,7 +41,7 @@ jobs:
     - name: Checkout ${{ inputs.local-repo }}
       uses: actions/checkout@v4
       with:
-        repository: "${{ inputs.local-repo }}"
+        repository: "${{ inputs.local-domain }}/${{ inputs.local-repo }}"
         ref: "${{ inputs.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
