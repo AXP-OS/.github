@@ -11,6 +11,9 @@ on:
       remote-branch:
         required: true
         type: string
+      remote-server:
+        required: false
+        type: string
       local-repo:
         required: true
         type: string
@@ -38,6 +41,7 @@ jobs:
     - name: Checkout ${{ inputs.local-repo }}
       uses: actions/checkout@v4
       with:
+        github-server-url: "${{ inputs.remote-server || 'https://github.com' }}"
         repository: "${{ inputs.local-repo }}"
         ref: "${{ inputs.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
