@@ -3,8 +3,8 @@ name: "Sync upstream"
 
 on:
   workflow_dispatch:  # button shown only when in default branch
-  schedule:
-    - cron:  '0 0 * * *'  # run once per day at midnight
+  #schedule:
+  #  - cron:  '0 0 * * *'  # run once per day at midnight
 
 # Sets permissions of the GITHUB_TOKEN to allow pushing via github token
 permissions:
