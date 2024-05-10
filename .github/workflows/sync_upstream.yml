@@ -1,0 +1,77 @@
+# https://github.com/marketplace/actions/fork-repo-upstream-sync
+name: "Sync upstream"
+
+on:
+  workflow_dispatch:  # button shown only when in default branch
+  workflow_call:  # we are a reusable template
+    inputs:
+      remote-domain:
+        required: true
+        type: string
+      remote-repo:
+        required: true
+        type: string
+      remote-branch:
+        required: true
+        type: string
+      local-domain:
+        required: true
+        type: string
+      local-repo:
+        required: true
+        type: string
+      local-branch:
+        required: true
+        type: string     
+
+# Sets permissions of the GITHUB_TOKEN to allow pushing via github token
+permissions:
+  contents: write # allow git push
+
+jobs:
+  sync_latest_from_upstream:
+    runs-on: ubuntu-latest
+    name: "Sync ${{ inputs.remote-repo }} (${{ inputs.local-branch }})"
+
+    steps:
+        
+    - name: Checkout ${{ inputs.local-repo }}
+      uses: actions/checkout@v4
+      with:
+        repository: "${{ inputs.local-repo }}"
+        ref: "${{ inputs.local-branch }}"
+        # REQUIRED if your upstream repo is private (see wiki)
+        persist-credentials: false
+        #token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: ${{ inputs.withsubmodules }}
+
+    - name: Sync with ${{ inputs.remote-repo }}
+      id: sync
+      uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+      with:
+        target_sync_branch: "${{ inputs.local-branch }}"
+        # REQUIRED 'target_repo_token' exactly like this!
+        target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+        upstream_sync_branch: "${{ inputs.remote-branch }}"
+        upstream_sync_repo_domain: "${{ inputs.remote-domain }}"
+        upstream_sync_repo: "${{ inputs.remote-repo }}"
+        #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
+        shallow_since: '3 years ago'
+        # Set test_mode true to run tests instead of the true action!!
+        test_mode: true
+      
+    - name: "New commits found?"
+      if: steps.sync.outputs.has_new_commits == 'true'
+      run: echo "New commits found!"
+
+    # Merge with main branch when new commits were found
+#    - name: "Merge ${{ inputs.local-branch }} -> ${{ inputs.local-branch-final }}"
+#      if: steps.sync.outputs.has_new_commits == 'true' && ${{ inputs.local-branch-final }}
+#      uses: devmasx/merge-branch@master
+#      with:
+#          type: now
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          from_branch: "${{ inputs.local-branch }}"
+#          target_branch: "${{ inputs.local-branch-final }}"
+#          message: "merge with upstream"
+ 
