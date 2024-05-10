@@ -1,0 +1,6 @@
+{
+    "name": "AXP.OS Sync Workflow",
+    "description": "Syncs your repo with an upstream one",
+    "iconName": "octicon git-pull-request",
+    "categories": [ "Continuous integration", "Automation" ]
+}
