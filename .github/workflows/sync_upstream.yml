@@ -59,6 +59,8 @@ jobs:
         gituser: ${{ github.actor }}
         gitmail: "${{ github.actor }}@nowhere.local"
       run: |
+        ls -la
+        find . -type f
         bash scripts/merge_and_push.sh \
           "${{ matrix.reposync.local-domain}}/${{ matrix.reposync.local-repo }}:${{ matrix.reposync.local-branch }}"\
           "${{ matrix.reposync.remote-domain}}/${{ matrix.reposync.remote-repo }}:${{ matrix.reposync.remote-branch }}"\
