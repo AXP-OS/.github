@@ -38,6 +38,11 @@ jobs:
     name: "Sync ${{ matrix.reposync.remote-repo }} (${{ matrix.reposync.local-branch }})"
 
     steps:
+    - name: Checkout common scripts
+      uses: actions/checkout@v4
+      with:
+        path: scripts
+        
     - name: Checkout ${{ matrix.reposync.local-repo }}
       uses: actions/checkout@v4
       with:
@@ -49,22 +54,32 @@ jobs:
 
     - name: Sync with ${{ matrix.reposync.remote-repo }}
       id: sync
-      uses: Swisyn/fork-sync-with-upstream-action@v1.0.0
-      with:
-        target_sync_branch: "${{ matrix.reposync.local-branch }}"
-        # REQUIRED 'target_repo_token' exactly like this!
-        target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-        upstream_sync_branch: "${{ matrix.reposync.remote-branch }}"
-        upstream_sync_repo_domain: "${{ matrix.reposync.remote-domain }}"
-        upstream_sync_repo: "${{ matrix.reposync.remote-repo }}"
-        #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
-        shallow_since: '3 years ago'
-        # Set test_mode true to run tests instead of the true action!!
-        test_mode: false
+      env:
+        ghtoken: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        bash scripts/merge_and_push.sh \
+          "${{ matrix.reposync.local-domain}}/${{ matrix.reposync.local-repo }}:${{ matrix.reposync.local-branch }}"\
+          "${{ matrix.reposync.remote-domain}}/${{ matrix.reposync.remote-repo }}:${{ matrix.reposync.remote-branch }}"
+
+
+#    - name: Sync with ${{ matrix.reposync.remote-repo }}
+#      id: sync
+#      uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
+#      with:
+#        target_sync_branch: "${{ matrix.reposync.local-branch }}"
+#        # REQUIRED 'target_repo_token' exactly like this!
+#        target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+#        upstream_sync_branch: "${{ matrix.reposync.remote-branch }}"
+#        upstream_sync_repo_domain: "${{ matrix.reposync.remote-domain }}"
+#        upstream_sync_repo: "${{ matrix.reposync.remote-repo }}"
+#        #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
+#        shallow_since: '3 years ago'
+#        # Set test_mode true to run tests instead of the true action!!
+#        test_mode: true
       
-    - name: "New commits found?"
-      if: steps.sync.outputs.has_new_commits == 'true'
-      run: echo "New commits found!"
+#    - name: "New commits found?"
+#      if: steps.sync.outputs.has_new_commits == 'true'
+#      run: echo "New commits found!"
 
     # Merge with main branch when new commits were found
 #    - name: "Merge ${{ matrix.reposync.local-branch }} -> ${{ matrix.reposync.local-branch-final }}"
