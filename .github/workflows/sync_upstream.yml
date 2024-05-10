@@ -14,34 +14,33 @@ jobs:
   sync_latest_from_upstream:
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         reposync:
           - remote-domain: gitea.angry.im
             remote-repo: PeterCxy/OpenEUICC
             remote-branch: master
+            local-repo: AXP-OS/packages_apps_OpenEUICC
             local-branch: mixed
             
           - remote-domain: github.com
             remote-repo: Divested-Mobile/DivestOS-Build
             remote-branch: master
+            local-repo: AXP-OS/build
             local-branch: [ master, axp ]
 
-    name: "Sync ${{ matrix.reposync.remote-repo }}"
+    name: "Sync ${{ matrix.reposync.remote-repo }} ${{ matrix.reposync.local-branch }}"
 
     steps:
-    # REQUIRED step
-    # Step 1: run a standard checkout action, provided by github
     - name: Checkout own repo
       uses: actions/checkout@v4
       with:
-        repository: "${{ matrix.reposync.remote-domain }}/${{ matrix.reposync.remote-repo }}"
+        repository: "${{ matrix.reposync.local-repo }}"
         ref: "${{ matrix.reposync.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
         #token: ${{ secrets.GITHUB_TOKEN }}
 
-    # REQUIRED step
-    # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
       uses: Swisyn/fork-sync-with-upstream-action@v1.0.0
@@ -57,12 +56,11 @@ jobs:
         # Set test_mode true to run tests instead of the true action!!
         test_mode: false
       
-    # Step 3: Display a message based on the sync output var 'has_new_commits'
     - name: "New commits found?"
       if: steps.sync.outputs.has_new_commits == 'true'
       run: echo "New commits found!"
 
-    # Step 4: Merge with main branch when new commits were found
+    # Merge with main branch when new commits were found
 #    - name: "Merge ${{ matrix.reposync.local-branch }} -> ${{ matrix.reposync.local-branch-final }}"
 #      if: steps.sync.outputs.has_new_commits == 'true' && ${{ matrix.reposync.local-branch-final }}
 #      uses: devmasx/merge-branch@master
