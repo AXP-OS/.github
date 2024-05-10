@@ -31,7 +31,7 @@ permissions:
 jobs:
   sync_latest_from_upstream:
     runs-on: ubuntu-latest
-    name: "Sync ${{ inputs.remote-repo }} (${{ inputs.local-branch }})"
+    name: "${{ inputs.remote-repo }} -> ${{ inputs.local-repo }}"
 
     steps:
         
