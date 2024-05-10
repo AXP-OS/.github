@@ -46,7 +46,7 @@ UREPONAME=$(echo "${usource/:*}" | cut -d '/' -f2)
 LREPOURL="https://tok:${ghtoken}@${LREPOFULL}.git"
 UREPOURL="https://${UREPOFULL}.git"
 
-echo "Syncing changes from $lsource into $utarget ..."
+echo "Syncing changes from $utarget into $lsource ..."
 
 ##############################################################################
 ##############################################################################
@@ -65,7 +65,7 @@ sync() {
    echo "fetch-upstream ended with $?"
    git checkout $LBRANCH
    echo "checkout ended with $?"
-   git merge upstream/$UBRANCH
+   git merge --allow-unrelated-histories upstream/$UBRANCH
    echo "merge ended with $?"
    if [ $TESTMODE -ne 1 ];then
       git push origin $LBRANCH
