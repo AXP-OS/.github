@@ -56,6 +56,8 @@ jobs:
       id: sync
       env:
         ghtoken: ${{ secrets.GITHUB_TOKEN }}
+        gituser: ${{ github.actor }}
+        gitmail: "${{ github.actor }}@nowhere.local"
       run: |
         bash scripts/merge_and_push.sh \
           "${{ matrix.reposync.local-domain}}/${{ matrix.reposync.local-repo }}:${{ matrix.reposync.local-branch }}"\
