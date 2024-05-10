@@ -43,8 +43,8 @@ LREPOFULL="${ltarget/*:}"
 UREPOFULL="${utarget/*:}"
 LREPONAME=$(echo "${lsource/*:}" | cut -d '/' -f2)
 UREPONAME=$(echo "${usource/*:}" | cut -d '/' -f2)
-LREPOURL="https://tok:${ghtoken}@${LREPO}.git"
-UREPOURL="https://${UREPO}.git"
+LREPOURL="https://tok:${ghtoken}@${LREPOFULL}.git"
+UREPOURL="https://${UREPOFULL}.git"
 
 echo "Syncing changes from $lsource into $utarget ..."
 
