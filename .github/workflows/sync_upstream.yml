@@ -1,0 +1,76 @@
+# https://github.com/marketplace/actions/fork-repo-upstream-sync
+name: "Sync upstream"
+
+on:
+  workflow_dispatch:  # button shown only when in default branch
+  schedule:
+    - cron:  '0 0 * * *'  # run once per day at midnight
+
+# Sets permissions of the GITHUB_TOKEN to allow pushing via github token
+permissions:
+  contents: write # allow git push
+
+jobs:
+  sync_latest_from_upstream:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        reposync:
+          - remote-domain: gitea.angry.im
+            remote-repo: PeterCxy/OpenEUICC
+            remote-branch: master
+            local-branch: mixed
+            
+          - remote-domain: github.com
+            remote-repo: Divested-Mobile/DivestOS-Build
+            remote-branch: master
+            local-branch: [ master, axp ]
+
+    name: "Sync ${{ matrix.reposync.remote-repo }}"
+
+    steps:
+    # REQUIRED step
+    # Step 1: run a standard checkout action, provided by github
+    - name: Checkout own repo
+      uses: actions/checkout@v4
+      with:
+        # optional: set the branch to checkout,
+        # sync action checks out your 'target_sync_branch' anyway
+        ref: ${{ matrix.reposync. }}
+        # REQUIRED if your upstream repo is private (see wiki)
+        persist-credentials: false
+        #token: ${{ secrets.GITHUB_TOKEN }}
+
+    # REQUIRED step
+    # Step 2: run the sync action
+    - name: Sync upstream changes
+      id: sync
+      uses: Swisyn/fork-sync-with-upstream-action@v1.0.0
+      with:
+        target_sync_branch: ${{ matrix.reposync.local-branch }}
+        # REQUIRED 'target_repo_token' exactly like this!
+        target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+        upstream_sync_branch: ${{ matrix.reposync.remote-branch }}
+        upstream_sync_repo_domain: ${{ matrix.reposync.remote-domain }}
+        upstream_sync_repo: ${{ matrix.reposync.remote-repo }}
+        #upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
+        shallow_since: '3 years ago'
+        # Set test_mode true to run tests instead of the true action!!
+        test_mode: false
+      
+    # Step 3: Display a message based on the sync output var 'has_new_commits'
+    - name: "New commits found?"
+      if: steps.sync.outputs.has_new_commits == 'true'
+      run: echo "New commits found!"
+
+    # Step 4: Merge with main branch when new commits were found
+#    - name: "Merge ${{ matrix.reposync.local-branch }} -> ${{ matrix.reposync.local-branch-final }}"
+#      if: steps.sync.outputs.has_new_commits == 'true' && ${{ matrix.reposync.local-branch-final }}
+#      uses: devmasx/merge-branch@master
+#      with:
+#          type: now
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          from_branch: ${{ matrix.reposync. }}
+#          target_branch: ${{ matrix.reposync. }}
+#          message: "merge with upstream"
+ 
