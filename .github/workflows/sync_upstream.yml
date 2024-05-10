@@ -20,6 +20,7 @@ jobs:
           - remote-domain: gitea.angry.im
             remote-repo: PeterCxy/OpenEUICC
             remote-branch: master
+            local-domain: github.com
             local-repo: AXP-OS/packages_apps_OpenEUICC
             local-branch: mixed
 
@@ -27,11 +28,13 @@ jobs:
           - remote-domain: github.com
             remote-repo: Divested-Mobile/DivestOS-Build
             remote-branch: master
+            local-domain: github.com
             local-repo: AXP-OS/build
             local-branch: master
           - remote-domain: github.com
             remote-repo: Divested-Mobile/DivestOS-Build
             remote-branch: master
+            local-domain: github.com
             local-repo: AXP-OS/build
             local-branch: axp
 
@@ -60,9 +63,8 @@ jobs:
         gituser: ${{ github.actor }}
         gitmail: "${{ github.actor }}@nowhere.local"
       run: |
-        ls -la
-        find . -type f
-        bash scripts/merge_and_push.sh \
+        cd urepo
+        bash ../scripts/merge_and_push.sh \
           "${{ matrix.reposync.local-domain}}/${{ matrix.reposync.local-repo }}:${{ matrix.reposync.local-branch }}"\
           "${{ matrix.reposync.remote-domain}}/${{ matrix.reposync.remote-repo }}:${{ matrix.reposync.remote-branch }}"\
           DRYRUN
