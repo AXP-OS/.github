@@ -22,17 +22,23 @@ jobs:
             remote-branch: master
             local-repo: AXP-OS/packages_apps_OpenEUICC
             local-branch: mixed
-            
+
+          #local-branch: [ master, axp ] # no idea how I can access that later as matrix.reposync.local-branch is just the array
           - remote-domain: github.com
             remote-repo: Divested-Mobile/DivestOS-Build
             remote-branch: master
             local-repo: AXP-OS/build
-            local-branch: [ master, axp ]
+            local-branch: master
+          - remote-domain: github.com
+            remote-repo: Divested-Mobile/DivestOS-Build
+            remote-branch: master
+            local-repo: AXP-OS/build
+            local-branch: axp
 
-    name: "Sync ${{ matrix.reposync.remote-repo }} ${{ matrix.reposync.local-branch }}"
+    name: "Sync ${{ matrix.reposync.remote-repo }} (${{ matrix.reposync.local-branch }})"
 
     steps:
-    - name: Checkout own repo
+    - name: Checkout ${{ matrix.reposync.local-repo }}
       uses: actions/checkout@v4
       with:
         repository: "${{ matrix.reposync.local-repo }}"
@@ -41,7 +47,7 @@ jobs:
         persist-credentials: false
         #token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Sync upstream changes
+    - name: Sync with ${{ matrix.reposync.remote-repo }}
       id: sync
       uses: Swisyn/fork-sync-with-upstream-action@v1.0.0
       with:
