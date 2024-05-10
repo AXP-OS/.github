@@ -26,7 +26,7 @@
 set -e # be strict on any error
 
 # check args
-if [ $@ -lt 2 ];then echo "missing arg ($0 <source-repo>:<merge-branch> <upstream-repo>:<upstream-branch>)"; exit 4;fi
+if [ $# -lt 2 ];then echo "missing arg ($0 <source-repo>:<merge-branch> <upstream-repo>:<upstream-branch>)"; exit 4;fi
 if [ -z "${ghtoken}" ];then echo "missing token info"; exit 4;fi
 
 # setup vars
