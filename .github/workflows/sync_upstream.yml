@@ -36,7 +36,7 @@ jobs:
       with:
         # optional: set the branch to checkout,
         # sync action checks out your 'target_sync_branch' anyway
-        ref: ${{ matrix.reposync. }}
+        ref: ${{ matrix.reposync.local-branch }}
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
         #token: ${{ secrets.GITHUB_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
 #      with:
 #          type: now
 #          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          from_branch: ${{ matrix.reposync. }}
-#          target_branch: ${{ matrix.reposync. }}
+#          from_branch: ${{ matrix.reposync.local-branch }}
+#          target_branch: ${{ matrix.reposync.local-branch-final }}
 #          message: "merge with upstream"
  
