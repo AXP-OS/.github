@@ -3,7 +3,7 @@ name: "Sync"
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '3 3 * * *'  # adjust if needed
+    - cron:  $cron-daily  # adjust if needed
 
 # Sets permissions of the GITHUB_TOKEN to allow pushing via github token
 permissions:
@@ -17,6 +17,6 @@ jobs:
         remote-repo:     # <- remote repo name (e.g. LineageOS/foo)
         remote-branch:   # <- remote branch name
         local-repo: ${{ github.repository_owner }}/${{ github.event.repository.name }}
-        local-branch: [ $default-branch ]
+        local-branch: $default-branch
         dryrun: true  # <- set to false after a test run
     secrets: inherit
