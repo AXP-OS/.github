@@ -46,6 +46,7 @@ jobs:
     - name: Checkout ${{ matrix.reposync.local-repo }}
       uses: actions/checkout@v4
       with:
+        path: urepo
         repository: "${{ matrix.reposync.local-repo }}"
         ref: "${{ matrix.reposync.local-branch }}"
         # REQUIRED if your upstream repo is private (see wiki)
