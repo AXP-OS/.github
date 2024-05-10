@@ -59,12 +59,14 @@ setup_git(){
 
 # sync, merge & push
 sync() {
+   git submodule init
    git remote add upstream $UREPOURL
    echo "remote-add ended with $?"
    git fetch upstream
    echo "fetch-upstream ended with $?"
    git checkout $LBRANCH
    echo "checkout ended with $?"
+   git submodule update
    git merge --allow-unrelated-histories upstream/$UBRANCH
    echo "merge ended with $?"
    if [ $TESTMODE -ne 1 ];then
