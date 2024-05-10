@@ -23,6 +23,7 @@ jobs:
             local-domain: github.com
             local-repo: AXP-OS/packages_apps_OpenEUICC
             local-branch: upstream
+            withsubmodules: true
 
           #local-branch: [ master, axp ] # no idea how I can access that later as matrix.reposync.local-branch is just the array
           - remote-domain: github.com
@@ -31,12 +32,14 @@ jobs:
             local-domain: github.com
             local-repo: AXP-OS/build
             local-branch: upstream
+            withsubmodules: true
           - remote-domain: github.com
             remote-repo: Divested-Mobile/DivestOS-Build
             remote-branch: master
             local-domain: github.com
             local-repo: AXP-OS/build
             local-branch: axp
+            withsubmodules: true
 
     name: "Sync ${{ matrix.reposync.remote-repo }} (${{ matrix.reposync.local-branch }})"
 
@@ -55,6 +58,7 @@ jobs:
         # REQUIRED if your upstream repo is private (see wiki)
         persist-credentials: false
         #token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: ${{ matrix.reposync.withsubmodules }}
 
     - name: Sync with ${{ matrix.reposync.remote-repo }}
       id: sync
