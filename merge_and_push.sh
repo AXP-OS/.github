@@ -58,7 +58,7 @@ setup_git(){
 }
 
 # sync, merge & push
-sync_source() {
+sync() {
    git remote add upstream $UREPOURL
    echo "remote-add ended with $?"
    git fetch upstream
