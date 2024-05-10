@@ -12,7 +12,10 @@
 #
 ##########################################################################################################
 # setup/usage:
-# the environment variable "ghtoken" is a git token which needs permission to push to your source-repo
+# the following environment variables are expected to be accessible by this script:
+#   - ghtoken -> a git token which needs permission to push to your source-repo
+#   - gituser -> username for the merge commit
+#   - gitmail -> mail for that username
 # and should be added to the CI/CD call, e.g.:
 #   - name: merge&sync
 #     run: merge_and_push.sh <source-repo>:<merge-branch> <upstream-repo>:<upstream-branch>
@@ -29,6 +32,11 @@ if [ -z "${ghtoken}" ];then echo "missing token info"; exit 4;fi
 # setup vars
 lsource="$1"
 utarget="$2"
+MODE="$3"
+case $MODE in 
+   DRYRUN) TESTMODE=1;;
+   *) TESTMODE=0;;
+esac
 LBRANCH="${lsource/:*}"
 UBRANCH="${utarget/:*}"
 LREPOFULL="${ltarget/*:}"
@@ -43,8 +51,14 @@ echo "Syncing changes from $lsource into $utarget ..."
 ##############################################################################
 ##############################################################################
 
+# add git commit infos
+setup_git(){
+   git config --global user.name "$gituser"
+   git config --global user.email "$gitmail"
+}
+
 # sync, merge & push
-function sync_source() {
+sync_source() {
    git remote add upstream $UREPOURL
    echo "remote-add ended with $?"
    git fetch upstream
@@ -53,8 +67,16 @@ function sync_source() {
    echo "checkout ended with $?"
    git merge upstream/$UBRANCH
    echo "merge ended with $?"
-   git push origin $LBRANCH
+   if [ $TESTMODE -ne 1 ];then
+      git push origin $LBRANCH
+   else
+      echo -e "TESTMODE=$TESTMODE, not pushing anything!\nHere the current git state instead:"
+      git status
+      git diff
+      git show
+   fi
    echo "push ended with $?"
 }
+setup_git
 sync
 echo "$0 finished successfully"
