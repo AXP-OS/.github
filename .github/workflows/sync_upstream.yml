@@ -59,7 +59,8 @@ jobs:
       run: |
         bash scripts/merge_and_push.sh \
           "${{ matrix.reposync.local-domain}}/${{ matrix.reposync.local-repo }}:${{ matrix.reposync.local-branch }}"\
-          "${{ matrix.reposync.remote-domain}}/${{ matrix.reposync.remote-repo }}:${{ matrix.reposync.remote-branch }}"
+          "${{ matrix.reposync.remote-domain}}/${{ matrix.reposync.remote-repo }}:${{ matrix.reposync.remote-branch }}"\
+          DRYRUN
 
 
 #    - name: Sync with ${{ matrix.reposync.remote-repo }}
