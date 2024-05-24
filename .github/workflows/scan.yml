@@ -10,7 +10,7 @@ on:
       wfid:
         required: true
         type: string
-      files:
+      filepattern:
         required: true
         type: string
 
