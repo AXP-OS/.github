@@ -11,7 +11,7 @@ on:
     outputs:
       results:
         description: "VirusTotal scan results"
-        value: ${{ jobs.upload.steps.outputs.results }}
+        value: ${{ jobs.upload.outputs.results }}
     inputs:
       repo:
         required: true
