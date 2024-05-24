@@ -1,0 +1,29 @@
+name: "Virustotal Scan"
+
+on:
+  workflow_dispatch:  # button shown only when in default branch
+  workflow_call:      # we are a reusable template
+    inputs:
+      files:
+        required: true
+        type: string
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    name: "Upload & Scan"
+    steps:
+      - name: Scan by VirusTotal
+        id: vt
+        uses: crazy-max/ghaction-virustotal@v4.0.0
+        with:
+          # The GitHub token used to create an authenticated client for GitHub API
+          vt_api_key: "${{ secrets.AXP_VT_API_KEY }}"
+          # Newline-delimited list of path globs for asset files to upload for analysis
+          files: ${{ inputs.files }}
+          # If enabled, analysis link(s) will be appended to the release body
+          #update_release_body: true # default is false
+          # The GitHub token used to create an authenticated client for GitHub API
+          # github_token: # optional, default is ${{ github.token }}
+          # API request-rate in requests/minute
+          request_rate: 2
