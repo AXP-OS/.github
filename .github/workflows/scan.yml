@@ -31,7 +31,7 @@ jobs:
           #github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
           repository:  ${{ inputs.repo }}
           run-id: ${{ inputs.wfid }}
-          path: cwf/${{ filepattern || '*' }}
+          path: cwf/${{ inputs.filepattern || '*' }}
 
       - name: Scan by VirusTotal
         id: vt
