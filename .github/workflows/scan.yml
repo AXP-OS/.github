@@ -1,3 +1,6 @@
+# requires to upload artifacts in the calling workflow
+# with static name "vt-artifacts"
+
 name: "Virustotal Scan"
 
 on:
@@ -11,9 +14,6 @@ on:
         required: true
         type: string
       filepattern:
-        required: true
-        type: string
-      artifactname:
         required: false
         type: string
 
@@ -26,7 +26,7 @@ jobs:
       - name: get files
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.artifactname }}
+          name: vt-artifacts
           merge-multiple: true
           #github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
           repository:  ${{ inputs.repo }}
