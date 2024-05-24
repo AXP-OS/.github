@@ -1,11 +1,17 @@
 # requires to upload artifacts in the calling workflow
 # with static name "vt-artifacts"
+# reg outputs:
+# https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
 
 name: "Virustotal Scan"
 
 on:
   workflow_dispatch:  # button shown only when in default branch
   workflow_call:      # we are a reusable template
+    outputs:
+      vt-analysis:
+        description: "VirusTotal scan results"
+        value: ${{ jobs.vt.steps.outputs.analysis }}
     inputs:
       repo:
         required: true
