@@ -11,7 +11,7 @@ on:
     outputs:
       vt-analysis:
         description: "VirusTotal scan results"
-        value: ${{ jobs.vt.steps.outputs.analysis }}
+        value: ${{ jobs.upload.steps.outputs.results }}
     inputs:
       repo:
         required: true
@@ -27,6 +27,8 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     name: "Upload & Scan"
+    outputs:
+      results: ${{ steps.vt.outputs.analysis }}
     steps:
 
       - name: get files
