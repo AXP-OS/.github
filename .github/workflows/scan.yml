@@ -23,7 +23,7 @@ jobs:
       - name: get files
         uses: actions/download-artifact@v4
         with:
-          pattern: ${{ inputs.files }}
+          pattern: ${{ inputs.filepattern }}
           merge-multiple: true
           #github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
           repository:  ${{ inputs.repo }}
