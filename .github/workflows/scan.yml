@@ -4,6 +4,12 @@ on:
   workflow_dispatch:  # button shown only when in default branch
   workflow_call:      # we are a reusable template
     inputs:
+      repo:
+        required: true
+        type: string
+      wfid:
+        required: true
+        type: string
       files:
         required: true
         type: string
@@ -13,6 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     name: "Upload & Scan"
     steps:
+
+      - name: get files
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ${{ inputs.files }}
+          merge-multiple: true
+          #github-token: ${{ secrets.GH_PAT }} # token with actions:read permissions on target repo
+          repository:  ${{ inputs.repo }}
+          run-id: ${{ inputs.wfid }}
+          path: cwf
+
       - name: Scan by VirusTotal
         id: vt
         uses: crazy-max/ghaction-virustotal@v4.0.0
@@ -20,7 +37,8 @@ jobs:
           # The GitHub token used to create an authenticated client for GitHub API
           vt_api_key: "${{ secrets.AXP_VT_API_KEY }}"
           # Newline-delimited list of path globs for asset files to upload for analysis
-          files: ${{ inputs.files }}
+          files: |
+            cwf/${{ inputs.files }}
           # If enabled, analysis link(s) will be appended to the release body
           #update_release_body: true # default is false
           # The GitHub token used to create an authenticated client for GitHub API
