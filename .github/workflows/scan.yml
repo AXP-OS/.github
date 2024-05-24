@@ -40,8 +40,7 @@ jobs:
           # The GitHub token used to create an authenticated client for GitHub API
           vt_api_key: "${{ secrets.AXP_VT_API_KEY }}"
           # Newline-delimited list of path globs for asset files to upload for analysis
-          files: |
-            cwf/${{ inputs.files }}
+          files: cwf/*
           # If enabled, analysis link(s) will be appended to the release body
           #update_release_body: true # default is false
           # The GitHub token used to create an authenticated client for GitHub API
