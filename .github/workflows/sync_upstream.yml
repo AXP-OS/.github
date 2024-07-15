@@ -65,6 +65,7 @@ jobs:
 
     - name: "New commits found?"
       id: commitcheck
+      shell: bash
       run: |
         if [ ${{ steps.sync.outputs.has_new_commits }} == 'true' ];then
           echo "new_commits=True" >> $GITHUB_OUTPUT
