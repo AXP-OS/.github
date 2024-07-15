@@ -68,8 +68,10 @@ jobs:
       run: |
         if [ ${{ steps.sync.outputs.has_new_commits }} == 'true' ];then
           echo "new_commits=True" >> $GITHUB_OUTPUT
+          echo new_commits=True
         else
           echo "new_commits=False" >> $GITHUB_OUTPUT
+          echo new_commits=False
         fi
 
     # Merge with main branch when new commits were found
