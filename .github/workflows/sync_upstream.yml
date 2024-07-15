@@ -62,10 +62,20 @@ jobs:
         shallow_since: '3 years ago'
         # Set test_mode true to run tests instead of the true action!!
         test_mode: ${{ inputs.dryrun }}
-      
+
     - name: "New commits found?"
       if: steps.sync.outputs.has_new_commits == 'true'
-      run: echo "New commits found!"
+      run: echo "new_commits=True" > cm.res
+
+    - name: "No new commits found?"
+      if: steps.sync.outputs.has_new_commits != 'true'
+      run: echo "new_commits=False" > cm.res
+
+    - name: Upload commit result
+      uses: actions/upload-artifact@v4
+      with:
+        name: commit_result
+        path: cm.res
 
     # Merge with main branch when new commits were found
 #    - name: "Merge ${{ inputs.local-branch }} -> ${{ inputs.local-branch-final }}"
