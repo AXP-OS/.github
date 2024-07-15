@@ -64,18 +64,13 @@ jobs:
         test_mode: ${{ inputs.dryrun }}
 
     - name: "New commits found?"
-      if: steps.sync.outputs.has_new_commits == 'true'
-      run: echo "new_commits=True" > cm.res
-
-    - name: "No new commits found?"
-      if: steps.sync.outputs.has_new_commits != 'true'
-      run: echo "new_commits=False" > cm.res
-
-    - name: Upload commit result
-      uses: actions/upload-artifact@v4
-      with:
-        name: commit_result
-        path: cm.res
+      id: commitcheck
+      run: |
+        if [ ${{ steps.sync.outputs.has_new_commits }} == 'true' ];then
+          echo "new_commits=True" >> $GITHUB_OUTPUT
+        else
+          echo "new_commits=False" >> $GITHUB_OUTPUT
+        fi
 
     # Merge with main branch when new commits were found
 #    - name: "Merge ${{ inputs.local-branch }} -> ${{ inputs.local-branch-final }}"
