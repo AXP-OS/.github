@@ -35,6 +35,8 @@ jobs:
   sync_latest_from_upstream:
     runs-on: ubuntu-latest
     name: "${{ inputs.remote-repo }} -> ${{ inputs.local-repo }}"
+    outputs:
+        cc_res: ${{ steps.commitcheck.outputs.new_commits }}
 
     steps:
         
