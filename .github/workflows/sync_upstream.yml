@@ -4,6 +4,10 @@ name: "Sync upstream"
 on:
   workflow_dispatch:  # button shown only when in default branch
   workflow_call:  # we are a reusable template
+    outputs:
+      cc_res:
+        description: "New commits found (True|False)?"
+        value: ${{jobs.sync_latest_from_upstream.outputs.cc_res}}
     inputs:
       remote-repo:
         required: true
@@ -76,15 +80,3 @@ jobs:
           echo "new_commits=False" >> $GITHUB_OUTPUT
           echo new_commits=False
         fi
-
-    # Merge with main branch when new commits were found
-#    - name: "Merge ${{ inputs.local-branch }} -> ${{ inputs.local-branch-final }}"
-#      if: steps.sync.outputs.has_new_commits == 'true' && ${{ inputs.local-branch-final }}
-#      uses: devmasx/merge-branch@master
-#      with:
-#          type: now
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          from_branch: "${{ inputs.local-branch }}"
-#          target_branch: "${{ inputs.local-branch-final }}"
-#          message: "merge with upstream"
- 
