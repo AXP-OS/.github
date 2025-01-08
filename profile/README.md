@@ -1,6 +1,6 @@
 ## AXP - [A]dvanced [XP]erience OS
 
-AXP.OS (short for "[A]dvanced [XP]erience OS") is a more private and more secure aftermarket mobile operating system based on DivestOS.
+AXP.OS (short for "[A]dvanced [XP]erience OS") is a more private and more secure aftermarket mobile operating system.
 
 - [Features](https://github.com/AXP-OS/build/wiki/Features)
 - [Documentation](https://github.com/AXP-OS/build/wiki)
