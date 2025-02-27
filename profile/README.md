@@ -2,8 +2,8 @@
 
 AXP.OS (short for "[A]dvanced [XP]erience OS") is a more private and more secure aftermarket mobile operating system.
 
-- [Features](https://github.com/AXP-OS/build/wiki/Features)
-- [Documentation](https://github.com/AXP-OS/build/wiki)
+- [Features](https://axpos.org/Features)
+- [Documentation](https://axpos.org/docs/overview/)
 - [Website](https://axpos.org/)
-- [Support](https://github.com/AXP-OS/build/wiki#support)
+- [Support](https://axpos.org/docs/overview/#support)
 - [Feature Requests & Issues](https://code.binbash.rocks/AXP.OS-public/issue-tracker/issues)
